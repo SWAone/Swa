@@ -27,6 +27,7 @@ class startControllor extends GetxController {
   List<Map> plerastodlet = [];
   bool lodengUplodImage = false;
   List docid = [];
+  final moonLanding = DateTime.parse('1969-07-20 20:18:04Z');
   //   متغيرات البوستات
   String? title, imag;
   chinglist() {
@@ -36,6 +37,7 @@ class startControllor extends GetxController {
 
   @override
   void onInit() async {
+    print(moonLanding.day);
     FirebaseMessaging.instance.subscribeToTopic('all');
 
     await FirebaseFirestore.instance.collection('teams').get().then((value) {
