@@ -9,8 +9,11 @@ import 'package:sumer_market/main.dart';
 
 class addp extends StatelessWidget {
   String docid;
-  addp({super.key,required this.docid});
+
+  addp({super.key, required this.docid});
   @override
+  XFile? file;
+  String? urll;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -70,7 +73,7 @@ class addp extends StatelessWidget {
                     label: 'عدد الاهداف',
                     onSaved: (p0) => controller.goal = p0,
                   ),
-              
+
                   forma(
                     label: 'مكان السكن الحالي',
                     onSaved: (p0) => controller.loction = p0,
@@ -83,36 +86,57 @@ class addp extends StatelessWidget {
                     label: 'المركز',
                     onSaved: (p0) => controller.markz = p0,
                   ),
+                  forma(
+                    label: 'رابط صورة غير مفرغة',
+                    onSaved: (p0) => controller.imag = p0,
+                  ),
                   SizedBox(
                     height: 10,
                   ),
-
-                   TextButton(
-                      onPressed: (() async {
-                        
-                        controller.addpng();
-                      }),
-                      child:controller.isPngUplod? Icon(Icons.done,color: Colors.green,):  Text('صورة  مفرغة')),
-
-
                   TextButton(
                       onPressed: (() async {
-                                             controller.addimg();
-
+                        ImagePicker imagePicker = ImagePicker();
+                        file = await imagePicker.pickImage(
+                            source: ImageSource.gallery);
+                        print(file!.path);
+                        if (file == null) return;
+                        String UineqFileNmaw =
+                            DateTime.now().microsecondsSinceEpoch.toString();
+                        Reference referenceRote =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirimage =
+                            referenceRote.child('image');
+                        Reference referenceimageUAplod =
+                            referenceDirimage.child(UineqFileNmaw);
+                        try {
+                          await referenceimageUAplod.putFile(File(file!.path));
+                          urll = await referenceimageUAplod.getDownloadURL();
+                          controller.png =
+                              await referenceimageUAplod.getDownloadURL();
+                          print(urll);
+                          controller.png = urll;
+                          await controller.uplodData(docId: docid);
+                        } catch (e) {}
                       }),
-                      child: controller.isImagUplod? Icon(Icons.done,color: Colors.green,): Text('صورة غير مفرغة')),
+                      child: Text('صورة مفرغة')),
+                  // TextButton(
+                  //     onPressed: (() async {
+                  //       controller.addpng();
+                  //     }),
+                  //     child: Text('صورة  مفرغة')),
 
+                  // TextButton(
+                  //     onPressed: (() async {
+                  //                            controller.addimg();
+                  //
+                  //     }),
+                  //     child: controller.isImagUplod? Icon(Icons.done,color: Colors.green,): Text('صورة غير مفرغة')),
 
                   TextButton(
                       onPressed: (() {
-                        if (controller.isImagUplod && controller.isPngUplod) {
-                                                  controller.uplodData(docId: docid);
-
-                        }else{
-                          Get.snackbar('حمل الصور', 'انتضر العلامة الخضراء');
-                        }
+                        controller.uplodData(docId: docid);
                       }),
-                      child:  Text('تسجيل')),
+                      child: Text('تسجيل')),
                 ],
               );
             },
@@ -122,14 +146,14 @@ class addp extends StatelessWidget {
     );
   }
 
- static Widget forma(
+  static Widget forma(
       {required void Function(String?) onSaved, required String label}) {
     return TextFormField(
       decoration: InputDecoration(label: Text('$label')),
       onSaved: onSaved,
       validator: (value) {
         if (value!.isEmpty) {
-          return "فارغ";
+          return "لا يمكن ترك الحقل فارغ";
         }
       },
     );
