@@ -63,7 +63,7 @@ class startPage extends StatelessWidget {
                           //                   label: 'رابط الصورة'),
                           //               IconButton(
                           //                   onPressed: () {
-                          //                     controller.AddPost();
+                          // controller.AddPost();
                           //                   },
                           //                   icon: Icon(
                           //                     Icons.add,
@@ -283,7 +283,7 @@ class startPage extends StatelessWidget {
                                                   const EdgeInsets.all(8.0),
                                               child: Row(
                                                 children: [
-                                                  CircleAvatar(
+                                                  const CircleAvatar(
                                                     radius: 28,
                                                     backgroundImage: AssetImage(
                                                         'assets/images/acdd.png'),
@@ -291,10 +291,20 @@ class startPage extends StatelessWidget {
                                                   SizedBox(
                                                     width: 5.w,
                                                   ),
-                                                  ineed.custmText(
-                                                      data: 'اعلام سومر',
-                                                      fontSize: 15.sp,
-                                                      isbold: true)
+                                                  SizedBox(
+                                                    height: 10.h,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      ineed.custmText(
+                                                          data: 'اعلام سومر',
+                                                          fontSize: 15.sp,
+                                                          isbold: true),
+                                                      ineed.custmText(
+                                                        data: '12/2',
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
                                               ),
                                             ),

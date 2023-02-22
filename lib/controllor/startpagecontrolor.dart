@@ -21,13 +21,13 @@ class startControllor extends GetxController {
   bool isching = false;
   String? temName, teamLogo, bos, loction, mpng;
   List<Map> teamInfo = [];
-  List<Map> plerass = [];
+  // List<Map> plerass = [];
   List<Map> posts = [];
   List postId = [];
-  List<Map> plerastodlet = [];
+  // List<Map> plerastodlet = [];
   bool lodengUplodImage = false;
   List docid = [];
-  final moonLanding = DateTime.parse('1969-07-20 20:18:04Z');
+
   //   متغيرات البوستات
   String? title, imag;
   chinglist() {
@@ -37,7 +37,6 @@ class startControllor extends GetxController {
 
   @override
   void onInit() async {
-    print(moonLanding.day);
     FirebaseMessaging.instance.subscribeToTopic('all');
 
     await FirebaseFirestore.instance.collection('teams').get().then((value) {
@@ -82,9 +81,11 @@ class startControllor extends GetxController {
     var sta = postkey.currentState;
     if (sta!.validate()) {
       sta.save();
-      await FirebaseFirestore.instance
-          .collection('posts')
-          .add({"title": title, "imag": imag}).then((value) {
+      await FirebaseFirestore.instance.collection('posts').add({
+        "title": title,
+        "imag": imag,
+        
+      }).then((value) {
         Get.back();
         update();
       });

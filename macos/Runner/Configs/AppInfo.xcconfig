@@ -8,7 +8,7 @@
 PRODUCT_NAME = سومر;
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = swa.is.thw.best;
+PRODUCT_BUNDLE_IDENTIFIER = swa11.com;
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.
